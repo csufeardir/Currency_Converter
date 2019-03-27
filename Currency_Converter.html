@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<body>
+<center>
+
+<h2>Currency Converter</h2>
+<br>
+  <label>FROM<select id="currency1">
+</select></label>
+
+  <label>TO<select id="currency2">
+  <option>CZK</option>
+</select></label>
+
+	<div id="app">
+	</div>
+
+  <br>
+  <input type="number" step="1" min="0" id="amount">
+  <br>
+<button id="btn">Convert</button>
+<br>
+<hr>
+<h2>Result</h2>
+<div id="result"></div>
+
+
+<script>
+var x;
+var y;
+var amount;
+var convertion;
+
+fetch('https://homel.vsb.cz/~mor03/TAMZ/cnb_json.php')
+  .then(response => {
+    return response.json()
+  })
+  .then(data => {
+  for (var i=0; i<data.data.length; i++) {
+  
+  localStorage.setItem(data.data[i].code, JSON.stringify(data.data[i].rate));
+
+   var node = document.createElement("OPTION");
+   var node2 = document.createElement("OPTION");
+   
+   var textnode = document.createTextNode(data.data[i].code);
+   var textnode2 = document.createTextNode(data.data[i].code);
+   
+   node.appendChild(textnode);
+   node2.appendChild(textnode2);
+   
+   document.getElementById("currency1").appendChild(node);
+   document.getElementById("currency2").appendChild(node2);
+   
+}
+	
+  })
+  .catch(err => {
+   console.log(err);
+  })
+
+  function calculate(value){
+		x = document.getElementById("currency1").value;
+		y = document.getElementById("currency2").value;
+		amount = document.getElementById("amount").value;
+		var rate = JSON.parse(localStorage[x]);
+		
+		
+		if(y == 'CZK'){
+			var res = amount + " " + x + " Equals to " + ((amount)*(parseFloat(rate))).toFixed(2) + " CZK"
+			document.getElementById("result").innerHTML = res;
+		}
+		else {
+			var rate2 = JSON.parse(localStorage[y]);
+			var res = amount + " " + x + " Equals to " + ((amount)*(parseFloat(rate))/(parseFloat(rate2))).toFixed(2) + " " + y
+			document.getElementById("result").innerHTML = res;
+		}
+		
+  }
+
+	document.getElementById("btn").onclick=function(){
+	calculate();
+	}
+</script>
+</center>
+</body>
+</html>
