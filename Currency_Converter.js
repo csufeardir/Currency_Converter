@@ -27,12 +27,12 @@ fetch('https://homel.vsb.cz/~mor03/TAMZ/cnb_json.php')
 		unit = JSON.parse(localStorage[x+"_unit"]);
 		
 		if(y == 'CZK'){
-			var res = amount*unit + " " + x + " Equals to " + ((amount)*(parseFloat(rate))).toFixed(2) + " CZK"
+			var res = amount + " " + x + " Equals to " + (((amount)*(parseFloat(rate)))/unit).toFixed(2) + " CZK"
 			console.log(res);
 		}
 		else {
 			var rate2 = JSON.parse(localStorage[y]);
-			var res = amount*unit + " " + x + " Equals to " + ((amount)*(parseFloat(rate))/(parseFloat(rate2))).toFixed(2) + " " + y
+			var res = amount + " " + x + " Equals to " + (((amount)*(parseFloat(rate))/(parseFloat(rate2)))/unit).toFixed(2) + " " + y
 			console.log(res);
 		}
 		
